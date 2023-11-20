@@ -26,7 +26,7 @@ function useTodos() {
             completed: false,
         });
         saveTodos(newTodos);
-    }
+    };
 
     const completeTodo = (text) => {
         const newTodos = [...todos];
