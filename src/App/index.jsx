@@ -14,8 +14,8 @@ import { TodoForm } from '../TodoForm';
 
 function App() {
   const {
-    loading,
     error,
+    loading,
     searchedTodos,
     completeTodo,
     deleteTodo,
@@ -25,9 +25,9 @@ function App() {
     completedTodos,
     searchValue,
     setSearchValue,
-    addTodo
+    addTodo,
   } = useTodos();
-
+  
   return (
     <>
       <TodoHeader>
@@ -44,11 +44,26 @@ function App() {
       <TodoList
         error={error}
         loading={loading}
+        totalTodos={totalTodos}
         searchedTodos={searchedTodos}
+        searchText={searchValue}
         onError={() => <TodosError />}
         onLoading={() => <TodosLoading />}
         onEmptyTodos={() => <EmptyTodos />}
-        render={todo => (
+        onEmptySearchResults={
+          (searchText) => <p>No hay resultados para {searchText}</p>
+        }
+        // render={todo => (
+        //   <TodoItem
+        //     key={todo.text}
+        //     text={todo.text}
+        //     completed={todo.completed}
+        //     onComplete={() => completeTodo(todo.text)}
+        //     onDelete={() => deleteTodo(todo.text)}
+        //   />
+        // )}
+      >
+        {todo => (
           <TodoItem
             key={todo.text}
             text={todo.text}
@@ -57,13 +72,9 @@ function App() {
             onDelete={() => deleteTodo(todo.text)}
           />
         )}
-      />
+      </TodoList>
 
-      <CreateTodoButton
-        setOpenModal={setOpenModal}
-      />
-
-      {openModal && (
+      {!!openModal && (
         <Modal>
           <TodoForm
             addTodo={addTodo}
@@ -71,8 +82,13 @@ function App() {
           />
         </Modal>
       )}
+
+      <CreateTodoButton
+        setOpenModal={setOpenModal}
+      />
     </>
   );
 }
+
 
 export { App };
